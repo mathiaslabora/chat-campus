@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import {
   Route,
   BrowserRouter as Router,
-  Switch,
-  Redirect,
+  Routes,
+  Navigate
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Chat from "./pages/Chat";
@@ -21,7 +21,7 @@ function PrivateRoute({ component: Component, authenticated, ...rest }) {
         authenticated === true ? (
           <Component {...props} />
         ) : (
-          <Redirect
+          <Navigate
             to={{ pathname: "/login", state: { from: props.location } }}
           />
         )
@@ -38,7 +38,7 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
         authenticated === false ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/chat" />
+          <Navigate to="/chat" />
         )
       }
     />
@@ -77,7 +77,7 @@ class App extends Component {
       </div>
     ) : (
       <Router>
-        <Switch>
+        <Routes>
           <Route exact path="/" component={Home} />
           <PrivateRoute
             path="/chat"
@@ -94,7 +94,7 @@ class App extends Component {
             authenticated={this.state.authenticated}
             component={Login}
           />
-        </Switch>
+        </Routes>
       </Router>
     );
   }
